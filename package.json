@@ -4,7 +4,7 @@
   "description": "System for library",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/lpmatiutis/projects-library-simulator#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "tslint": "^5.20.1",
     "typescript": "^5.7.2"
   }
