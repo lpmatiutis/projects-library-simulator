@@ -17,8 +17,8 @@ describe('Library Observer', () => {
         library.addObserver(observer);
 
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
-        library.addBook(book);
-        library.lendBook("1984");
+        library.addItem(book);
+        library.lendItem("1984");
 
         expect(observer.events).toContain("Book Lent: 1984");
     });
@@ -29,8 +29,8 @@ describe('Library Observer', () => {
         library.addObserver(observer);
 
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, false);
-        library.addBook(book);
-        library.returnBook("1984");
+        library.addItem(book);
+        library.returnItem("1984");
 
         expect(observer.events).toContain("Book Returned: 1984");
     });

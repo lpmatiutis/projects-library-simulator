@@ -1,11 +1,8 @@
 import { BookCategory } from "./BookCategory";
+import { Publication } from "./Publication";
 
-export class Book {
-  title: string;
-
+export class Book extends Publication {
   author: string;
-
-  year: number;
 
   isAvailable: boolean;
 
@@ -17,6 +14,7 @@ export class Book {
     category: BookCategory,
     isAvailable: boolean
   ) {
+    super(title, year);
     if (!title.trim()) {
       throw new Error("Title cannot be empty");
     }
@@ -25,9 +23,7 @@ export class Book {
       throw new Error("Year must be positive");
     }
 
-    this.title = title;
     this.author = author;
-    this.year = year;
     this.category = category;
     this.isAvailable = isAvailable;
   }

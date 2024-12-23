@@ -10,3 +10,5 @@ npm install
 #### 03. New class Libray, to add and remove books from library, with the methods addBook and removeBook
 
 #### 04. Category add to book
+
+#### 05. Added polymorphism and inheritance.

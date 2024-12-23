@@ -14,10 +14,10 @@ describe('Library Singleton', () => {
 describe('Library Singleton Data Sharing', () => {
     it('should share data between instances', () => {
         const library1 = Library.getInstance();
-        library1.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
+        library1.addItem(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
 
         const library2 = Library.getInstance();
-        const books = library2.listBooks();
+        const books = library2.listItems();
 
         expect(books).toContain("1984 by George Orwell, published in 1949");
     });
@@ -34,34 +34,34 @@ describe('Library Singleton Methods', () => {
 
     it('should add and find a book', () => {
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
-        library.addBook(book);
+        library.addItem(book);
 
-        const foundBook = library.findBook("1984");
+        const foundBook = library.findItem("1984");
         expect(foundBook?.title).toBe("1984");
     });
 
     it('should remove a book', () => {
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
-        library.addBook(book);
+        library.addItem(book);
 
         const removed = library.removeBook("1984");
         expect(removed).toBe(true);
 
-        const foundBook = library.findBook("1984");
+        const foundBook = library.findItem("1984");
         expect(foundBook).toBeNull();
     });
 
     it('should return null for non-existent books', () => {
-        const foundBook = library.findBook("Nonexistent Book");
+        const foundBook = library.findItem("Nonexistent Book");
         expect(foundBook).toBeNull();
     });
 
     it('should find books by category', () => {
         const library = Library.getInstance();
-        library.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
-        library.addBook(new Book("A Brief History of Time", "Stephen Hawking", 1988, BookCategory.History, true));
+        library.addItem(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
+        library.addItem(new Book("A Brief History of Time", "Stephen Hawking", 1988, BookCategory.History, true));
     
-        const fictionBooks = library.findBooksByCategory("Fiction");
+        const fictionBooks = library.findBooksByCategory(BookCategory.Fiction);
         expect(fictionBooks).toHaveLength(1);
         expect(fictionBooks[0].title).toBe("1984");
     });
@@ -69,20 +69,20 @@ describe('Library Singleton Methods', () => {
     it('should lend and return a book', () => {
         const library = Library.getInstance();
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
-        library.addBook(book);
+        library.addItem(book);
     
-        const lendResult = library.lendBook("1984");
+        const lendResult = library.lendItem("1984");
         expect(lendResult).toBe(true);
         expect(book.isAvailable).toBe(false);
     
-        const returnResult = library.returnBook("1984");
+        const returnResult = library.returnItem("1984");
         expect(returnResult).toBe(true);
         expect(book.isAvailable).toBe(true);
     });
 
     it('should save and load library data to/from a file', () => {
         const library = Library.getInstance();
-        library.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
+        library.addItem(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
     
         const filePath = './library.json';
         library.saveToFile(filePath);
@@ -90,7 +90,7 @@ describe('Library Singleton Methods', () => {
         const newLibrary = Library.getInstance();
         newLibrary.loadFromFile(filePath);
     
-        const books = newLibrary.listBooks();
+        const books = newLibrary.listItems();
         // expect(books).toContain("1984 by George Orwell, published in 1949, category: Fiction");
     
         // Cleanup
