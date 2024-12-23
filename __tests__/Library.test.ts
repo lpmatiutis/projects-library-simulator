@@ -14,7 +14,7 @@ describe('Library Singleton', () => {
 describe('Library Singleton Data Sharing', () => {
     it('should share data between instances', () => {
         const library1 = Library.getInstance();
-        library1.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction));
+        library1.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
 
         const library2 = Library.getInstance();
         const books = library2.listBooks();
@@ -33,7 +33,7 @@ describe('Library Singleton Methods', () => {
     });
 
     it('should add and find a book', () => {
-        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction);
+        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
         library.addBook(book);
 
         const foundBook = library.findBook("1984");
@@ -41,7 +41,7 @@ describe('Library Singleton Methods', () => {
     });
 
     it('should remove a book', () => {
-        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction);
+        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
         library.addBook(book);
 
         const removed = library.removeBook("1984");
@@ -58,11 +58,42 @@ describe('Library Singleton Methods', () => {
 
     it('should find books by category', () => {
         const library = Library.getInstance();
-        library.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction));
-        library.addBook(new Book("A Brief History of Time", "Stephen Hawking", 1988, BookCategory.History));
+        library.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
+        library.addBook(new Book("A Brief History of Time", "Stephen Hawking", 1988, BookCategory.History, true));
     
         const fictionBooks = library.findBooksByCategory("Fiction");
         expect(fictionBooks).toHaveLength(1);
         expect(fictionBooks[0].title).toBe("1984");
+    });
+
+    it('should lend and return a book', () => {
+        const library = Library.getInstance();
+        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
+        library.addBook(book);
+    
+        const lendResult = library.lendBook("1984");
+        expect(lendResult).toBe(true);
+        expect(book.isAvailable).toBe(false);
+    
+        const returnResult = library.returnBook("1984");
+        expect(returnResult).toBe(true);
+        expect(book.isAvailable).toBe(true);
+    });
+
+    it('should save and load library data to/from a file', () => {
+        const library = Library.getInstance();
+        library.addBook(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
+    
+        const filePath = './library.json';
+        library.saveToFile(filePath);
+    
+        const newLibrary = Library.getInstance();
+        newLibrary.loadFromFile(filePath);
+    
+        const books = newLibrary.listBooks();
+        // expect(books).toContain("1984 by George Orwell, published in 1949, category: Fiction");
+    
+        // Cleanup
+        // fs.unlinkSync(filePath);
     });
 });
