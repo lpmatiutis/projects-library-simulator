@@ -4,11 +4,13 @@ import { Publication } from "./Publication";
 import { Magazine } from "./Magazine";
 import { BookCategory } from "./BookCategory";
 import { MagazineCategory } from "./MagazineCategory";
+import { LoandRecord } from "./LoandRecord";
 
 export class Library implements Subject {
   private static instance: Library;
   private items: Map<string, Publication> = new Map();
   private observers: Observer[] = [];
+  private loanHistory: LoandRecord[] = [];
 
   private constructor() {}
 
@@ -32,13 +34,13 @@ export class Library implements Subject {
   }
 
   addItem(item: Publication): void {
-    // if (this.books.has(book.title)) {
-    //     throw new Error(`The book "${book.title}" already exists in the library.`);
-    // }
+    if (this.items.has(item.title)) {
+        throw new Error(`The item "${item.title}" already exists in the library.`);
+    }
     this.items.set(item.title, item);
   }
 
-  removeBook(title: string): boolean {
+  removeItem(title: string): boolean {
     return this.items.delete(title);
   }
 
@@ -69,6 +71,7 @@ export class Library implements Subject {
     if (item && item.isAvailable) {
       item.isAvailable = false;
       this.notify("Book Lent", item);
+      this.loanHistory.push(new LoandRecord(title, new Date()));
       return true;
     }
     return false;
@@ -78,6 +81,8 @@ export class Library implements Subject {
     const item = this.findItem(title);
     if (item && !item.isAvailable) {
       item.isAvailable = true;
+      const loan = this.loanHistory.find((record) => record.title === title && !record.returnDate);
+      if (loan) loan.returnBook();
       this.notify("Book Returned", item);
       return true;
     }
@@ -91,11 +96,23 @@ export class Library implements Subject {
 
   public loadFromFile(filename: string): void {
     const data = fs.readFileSync(filename, "utf-8");
-    const booksArray = JSON.parse(data);
-    booksArray.forEach((bookData: any) => {
-      const book = Book.fromJSON(bookData);
-      this.items.set(book.title, book);
+    const publications = JSON.parse(data);
+    publications.forEach((pubData: any) => {
+      let item: Publication;
+      if(pubData.author){
+        item = Book.fromJSON(pubData);
+      } else if (pubData.issueNumber) {
+          item = new Magazine(pubData.title, pubData.year, pubData.issueNumber);
+      } else {
+        throw new Error ("Invalid publication data");
+      }
+
+      this.items.set(item.title, item);
     });
+  }
+
+  public getLoanHistory(): LoandRecord[] {
+    return this.loanHistory;
   }
 }
 

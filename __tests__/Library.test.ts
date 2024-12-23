@@ -33,6 +33,7 @@ describe('Library Singleton Methods', () => {
     });
 
     it('should add and find a book', () => {
+        library.removeItem("1984");
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
         library.addItem(book);
 
@@ -41,10 +42,11 @@ describe('Library Singleton Methods', () => {
     });
 
     it('should remove a book', () => {
+        library.removeItem("1984");
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
         library.addItem(book);
 
-        const removed = library.removeBook("1984");
+        const removed = library.removeItem("1984");
         expect(removed).toBe(true);
 
         const foundBook = library.findItem("1984");
@@ -68,6 +70,7 @@ describe('Library Singleton Methods', () => {
 
     it('should lend and return a book', () => {
         const library = Library.getInstance();
+        library.removeItem("1984");
         const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
         library.addItem(book);
     
@@ -82,6 +85,7 @@ describe('Library Singleton Methods', () => {
 
     it('should save and load library data to/from a file', () => {
         const library = Library.getInstance();
+        library.removeItem("1984");
         library.addItem(new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true));
     
         const filePath = './library.json';
@@ -97,3 +101,19 @@ describe('Library Singleton Methods', () => {
         // fs.unlinkSync(filePath);
     });
 });
+
+describe('Library Loan History', () => {
+    let library: Library;
+    it('should record loan history', () => {
+        const library = Library.getInstance();
+        library.removeItem("1984");
+        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, true);
+        library.addItem(book);
+    
+        library.lendItem("1984");
+        const loanHistory = library.getLoanHistory(); // Método a implementar
+        expect(loanHistory).toHaveLength(2);
+        expect(loanHistory[0].title).toBe("1984");
+    });
+    
+})

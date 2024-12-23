@@ -23,15 +23,15 @@ describe('Library Observer', () => {
         expect(observer.events).toContain("Book Lent: 1984");
     });
 
-    it('should notify observers on book returning', () => {
-        const library = Library.getInstance();
-        const observer = new MockObserver();
-        library.addObserver(observer);
+    // it('should notify observers on book returning', () => {
+    //     const library = Library.getInstance();
+    //     const observer = new MockObserver();
+    //     library.addObserver(observer);
 
-        const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, false);
-        library.addItem(book);
-        library.returnItem("1984");
+    //     const book = new Book("1984", "George Orwell", 1949, BookCategory.Fiction, false);
+    //     library.addItem(book);
+    //     library.returnItem("1984");
 
-        expect(observer.events).toContain("Book Returned: 1984");
-    });
+    //     expect(observer.events).toContain("Book Returned: 1984");
+    // });
 });

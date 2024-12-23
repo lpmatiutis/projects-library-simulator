@@ -14,7 +14,7 @@ export class Book extends Publication {
     category: BookCategory,
     isAvailable: boolean
   ) {
-    super(title, year);
+    super(title, year, isAvailable);
     if (!title.trim()) {
       throw new Error("Title cannot be empty");
     }
@@ -25,7 +25,6 @@ export class Book extends Publication {
 
     this.author = author;
     this.category = category;
-    this.isAvailable = isAvailable;
   }
 
   public getDetails(): string {

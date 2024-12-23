@@ -12,3 +12,5 @@ npm install
 #### 04. Category add to book
 
 #### 05. Added polymorphism and inheritance.
+
+#### 06. Added Loand record
