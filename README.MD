@@ -14,3 +14,8 @@ npm install
 #### 05. Added polymorphism and inheritance.
 
 #### 06. Added Loand record
+
+#### 07. Install the dependencies
+
+npm install ts-node-dev --save-dev
+

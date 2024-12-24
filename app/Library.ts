@@ -114,6 +114,10 @@ export class Library implements Subject {
   public getLoanHistory(): LoandRecord[] {
     return this.loanHistory;
   }
+
+  public getListItems(): Publication[] {
+    return Array.from(this.items.values());
+  }
 }
 
 function isBook(publication: Publication): publication is Book {
