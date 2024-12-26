@@ -1,10 +1,10 @@
 import { Book } from "./models/Book";
-import fs from "fs";
 import { Publication } from "./models/Publication";
 import { Magazine } from ".//models/Magazine";
 import { BookCategory } from "./BookCategory";
 import { MagazineCategory } from "./MagazineCategory";
 import { LoandRecord } from "./LoandRecord";
+import { fs } from "fs";
 
 export class Library implements Subject {
   private static instance: Library;
