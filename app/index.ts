@@ -1,8 +1,23 @@
 import express from "express";
 import { Library } from "./Library";
-import { Book } from "./Book";
-import { Magazine } from "./Magazine";
+import { Book } from "./models/Book";
+import { Magazine } from "./models/Magazine";
 import cors from "cors";
+import { DataSource } from "typeorm";
+
+export const AppDataSource = new DataSource({
+    type: "sqlite",
+    database: "./data/library.db",
+    synchronize: true,
+    logging: false,
+    entities: [Book, Magazine],
+});
+
+AppDataSource.initialize()
+    .then(() => {
+        console.log("Database connected");
+    })
+    .catch((error) => console.error("Database connection error:", error));
 
 
 const app = express();
@@ -15,9 +30,22 @@ app.use(express.json());
 
 app.use(cors());
 
-
+//TODO: Add short and pagination
 app.get("/items", (req, res) => {
-    res.json(library.getListItems());
+    setTimeout(() => {
+        const {search, category} = req.query;
+        let items = library.getListItems();
+        if (search) {
+            const searchLower = search.toString().toLowerCase();
+            items = items.filter((item) => item.title.toLowerCase().includes(searchLower));
+        }
+        // if (category) {
+        //     items = items.filter((item) => item.category === category);
+        // }
+
+        res.json(items);
+    }, 2000);
+    
 });
 
 app.post("/items", (req, res) => {

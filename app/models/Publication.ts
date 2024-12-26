@@ -1,6 +1,17 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity()
 export class Publication {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   title: string;
+  
+  @Column()
   year: number;
+  
+  @Column()
   isAvailable: boolean = true;
 
   constructor(title: string, year: number, isAvailable: boolean = true) {

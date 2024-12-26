@@ -1,11 +1,16 @@
-import { BookCategory } from "./BookCategory";
+import { Column, Entity } from "typeorm";
+import { BookCategory } from "../BookCategory";
 import { Publication } from "./Publication";
 
+@Entity()
 export class Book extends Publication {
+  @Column()
   author: string;
 
+  @Column()
   isAvailable: boolean;
 
+  @Column( {type: "varchar"} )
   category: BookCategory;
   constructor(
     title: string,
@@ -15,7 +20,7 @@ export class Book extends Publication {
     isAvailable: boolean
   ) {
     super(title, year, isAvailable);
-    if (!title.trim()) {
+    if (!title?.trim()) {
       throw new Error("Title cannot be empty");
     }
 

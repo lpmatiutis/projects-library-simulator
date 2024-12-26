@@ -1,0 +1,8 @@
+{
+    "type": "sqlite",
+    "database": "./data/library.db",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["app/models/*.ts"]
+  }
+  

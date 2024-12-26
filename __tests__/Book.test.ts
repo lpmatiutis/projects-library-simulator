@@ -1,4 +1,4 @@
-import { Book } from "../app/Book";
+import { Book } from "../app/models/Book";
 import { BookCategory } from "../app/BookCategory";
 
 describe('Book class', () => {

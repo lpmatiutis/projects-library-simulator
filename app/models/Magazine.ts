@@ -1,8 +1,13 @@
-import { MagazineCategory } from "./MagazineCategory";
-import { Publication } from "./Publication";
+import { Column, Entity } from "typeorm";
+import { MagazineCategory } from "../MagazineCategory";
+import { Publication } from "../models/Publication";
 
+@Entity()
 export class Magazine extends Publication {
+    @Column()
     issueNumber: number;
+    
+    @Column()
     category: MagazineCategory;
 
     constructor(title: string, year: number, issueNumber: number) {

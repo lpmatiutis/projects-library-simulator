@@ -1,7 +1,7 @@
-import { Book } from "./Book";
+import { Book } from "./models/Book";
 import fs from "fs";
-import { Publication } from "./Publication";
-import { Magazine } from "./Magazine";
+import { Publication } from "./models/Publication";
+import { Magazine } from ".//models/Magazine";
 import { BookCategory } from "./BookCategory";
 import { MagazineCategory } from "./MagazineCategory";
 import { LoandRecord } from "./LoandRecord";

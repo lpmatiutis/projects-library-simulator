@@ -19,3 +19,4 @@ npm install
 
 npm install ts-node-dev --save-dev
 
+#### 08. Added filter list for items
